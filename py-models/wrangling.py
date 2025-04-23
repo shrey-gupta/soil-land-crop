@@ -220,6 +220,42 @@ def county_detrend_func_loess(y_df, test_year, all_years, record_count_threshold
 
     return y_df
 
+def county_detrend_func_hist(y_df, all_years, record_count_threshold = 1):
+    y_df['trend'] = np.nan
+    y_df['detrend'] = np.nan
+    # y_df['county_detrend_flag'] = np.nan
+    unique_county_ids = y_df['id2'].unique()
+
+    for id_val in unique_county_ids:
+        county_df = y_df[y_df['id2'] == id_val]
+
+        # if county_df.shape[0] < record_count_threshold:
+        #     y_df.loc[y_df['id2'] == id, 'county_detrend_flag'] = False
+        # else:
+        #     y_df.loc[y_df['id2'] == id, 'county_detrend_flag'] = True
+        
+        # for year in all_years:
+        for year_val in county_df['year'].unique():
+            train_df = county_df[county_df['year'] <= year_val]
+           
+            # Skip if not enough data
+            # if train_df.shape[0] < record_count_threshold:
+            #     continue
+
+            X_train = np.array(train_df['year']).reshape(-1, 1)
+            y_train = np.array(train_df['yield'])
+
+            model = LinearRegression()
+            model.fit(X_train, y_train)
+
+            y_pred = model.predict([[year_val]])[0]
+            mask = (y_df['id2'] == id_val) & (y_df['year'] == year_val)
+            y_df.loc[mask, 'trend'] = y_pred
+
+    y_df['detrend'] = y_df['yield'] - y_df['trend']
+
+    return y_df
+
 def normalize_feature_county(X, y_df, replace = True):
     unique_county_ids = y_df['id2'].unique()
     if replace:
