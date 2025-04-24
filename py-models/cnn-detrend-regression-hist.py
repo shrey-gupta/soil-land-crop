@@ -222,7 +222,7 @@ def main():
     print("\n=== Overall Performance Report for 2000 to 2019 ===")
     performance_report(y_true_all, y_pred_all)
 
-    # final_df.to_csv("plots_data/lstm_no_attn_2000_2005_detrend_loess.csv", index=False)
+    final_df.to_csv("plots_data/cnn_2000_2005_detrend_regresiion_hist.csv", index=False)
 
     plt.figure(figsize=(7, 5))
     sns.scatterplot(x = y_true_all, y = y_pred_all, alpha=0.7, edgecolor=None)
@@ -233,8 +233,8 @@ def main():
     plt.ylim(0)
     plt.tight_layout()
 
-    # Save the figure before showing it
-    # plt.savefig("plots_data/lstm_no_attn_2000_2005_detrend_loess.png")  
+    ##Save the figure before showing it
+    plt.savefig("plots_data/cnn_2000_2005_detrend_regression_hist.png")  
 
 
 if __name__ == "__main__":
