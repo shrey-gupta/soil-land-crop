@@ -1,1 +1,16 @@
 vita-hpc-attn-bias.zip
+
+# Python and notebook cache
+__pycache__/
+*/__pycache__/
+.ipynb_checkpoints/
+
+# Generated artifacts
+Figures/
+py-models/checkpoints/
+py-models/plots_data/
+
+# Local project folders not intended for git
+adapt/
+alternate-scripts/
+py-models/
